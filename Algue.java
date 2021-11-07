@@ -3,14 +3,10 @@ package Javaquarium;
 public class Algue {
 	public int age = 1;
 	public int pv = 10;
-	public boolean estMort = false;
+	public boolean isDead = false;
 	public Algue() {}
 	public Algue(int age) {
 		this.age = age;
-	}
-	public Algue(int age, int pv) {
-		this.age = age;
-		this.pv = pv;
 	}
 
 	public int getAge() {
@@ -25,18 +21,17 @@ public class Algue {
 		this.age += year;
 	}
 
-	public void subir(int degat) {
-		if (degat > 0) {
-			this.pv -= degat;
+	public void hurt(int degat) {
+		if (this.pv - degat < 0) {
+			this.isDead = true;
 		} else {
-			this.pv = 0;
-			this.estMort = true;
+			this.pv -= degat;
 		}
 	}
 
-	public void soigner(int vie) {
-		if (! this.estMort) {
-			this.pv += (vie > 0) ? vie : 0;
+	public void heal(int vie) {
+		if (! this.isDead) {
+			this.pv += Math.max(vie, 0);
 		}
 	}
 	
@@ -46,5 +41,20 @@ public class Algue {
 
 	public void setPV(int pv) {
 		this.pv = pv;
+	}
+
+	public boolean canDivise() {
+		return this.pv >= 10;
+	}
+
+	public Algue divise() {
+		if (canDivise()) {
+			Algue children = new Algue();
+			children.setPV(Math.round(this.pv / 2F));
+			this.pv = Math.round(this.pv / 2F);
+			return children;
+		} else {
+			return null;
+		}
 	}
 }

@@ -3,82 +3,130 @@ package Javaquarium;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 
 public class Aquarium {
-	public List<Poisson> poisson;
-	public List<Algue> algue;
+	private List<Fish> fish;
+	private List<Algue> algues;
+	private int tours;
 
 	public Aquarium() {
-		this.poisson = new ArrayList<Poisson>();
-		this.algue = new ArrayList<Algue>();
+		this.fish = new ArrayList<>();
+		this.algues = new ArrayList<>();
+		this.tours = 0;
 	}
 
-	public void ajouteAlgue(Algue a) {
-		this.algue.add(a);
+	public void addAlgue(Algue a) {
+		this.algues.add(a);
 	}
 
-	public void ajoutePoisson(Poisson p) {
-		this.poisson.add(p);
+	public void addFish(Fish p) {
+		this.fish.add(p);
 	}
-	public void checkPoisson() {
-		for(int i = 0; i < this.poisson.size(); i++) {
-			if (this.poisson.get(i).estMort) {
-				this.poisson.remove(i);
+
+	public void removeDeadFish() {
+		this.fish = this.fish.stream().filter(p -> ! p.isDead).collect(Collectors.toList());
+	}
+
+	public void removeDeadAlgues() {
+		this.algues = this.algues.stream().filter(p -> ! p.isDead).collect(Collectors.toList());
+	}
+
+	public void showFish() {
+		for (Fish e : this.fish) {
+			System.out.println("\t- " + e.name + "(age: " + e.age + ", pv: " + e.pv + ", sexe: " + e.sexe + " specie: " + e.getSpecie() +" )");
+		}
+	}
+
+	public void showAlgues() {
+		for (Algue e : this.algues) {
+			System.out.println("\t- (age: " + e.age + ", pv: " + e.pv + " )");
+		}
+	}
+
+	public void removeFish(Fish fish) {
+		this.fish.remove(fish);
+	}
+
+	public void diviseAlgue() {
+		for (int i = 0; i < this.algues.size(); i++) {
+			Algue children = this.algues.get(i).divise();
+			if (children != null) {
+				addAlgue(children);
 			}
 		}
-	}
-
-	public void checkAlgue() {
-		for(int i = 0; i < this.algue.size(); i++) {
-			if (this.algue.get(i).estMort) {
-				this.algue.remove(i);
-			}
-		}
-	}
-	public void showPoisson() {
-		for (Poisson e : this.poisson) {
-			System.out.println("\t- " + e.nom + "(age: " + e.age + ", pv: " + e.pv + ", sexe: " + e.sexe + " )");
-		}
-	}
-
-	public void showAlgue() {
-
-		System.out.println("le nombre d'algue: " + this.algue.size());
-	}
-
-	public void removePoisson(int index) {
-		this.poisson.remove(index);
 	}
 
 	public void updateAlgue() {
-		for (Algue a: this.algue) {
-			a.soigner(1);
+		for (Algue algue: this.algues) {
+			algue.heal(1);
 		}
 	}
 
-	public void updatePoisson() {
-		for (Poisson p: this.poisson) {
-			p.enlevePV(1);
+	public void updateFish() {
+		for (Fish fish: this.fish) {
+			if (fish.age == 20) {
+				removeFish(fish);
+			}
+			fish.hurt(1);
+			fish.old(1);
+		}
+	}
+
+	public void fishBirth() {
+		for (Fish fish: this.fish) {
+			Fish random_fish = getRandomFish();
+			if (fish.wantHaveChild(random_fish)) {
+				addFish(fish.giveBirth());
+			}
 		}
 	}
 
 	public void show() {
 		System.out.println("==== poisson ====");
-		showPoisson();
+		showFish();
 		System.out.println("==== algue ====");
-		showAlgue();
+		showAlgues();
+	}
+
+	public Fish getRandomFish() {
+		Random r = new Random();
+		int index = r.nextInt(this.fish.size());
+		return this.fish.get(index);
+	}
+
+	public Algue getRandomAlgue() {
+		Random r = new Random();
+		int index = r.nextInt(this.algues.size());
+		return this.algues.get(index);
+	}
+
+	public void fishEating() {
+		for (Fish fish: this.fish) {
+			if (fish.getPV() <= 5) {
+				if (fish instanceof CarnivorFish) {
+					fish.eat(getRandomFish());
+				} else if (fish instanceof HerbivorFish) {
+					fish.eat(getRandomAlgue());
+				} else {
+					throw new RuntimeException("this should not happen");
+				}
+			}
+		}
 	}
 
 	public void update() {
-		this.checkAlgue();
-		this.checkPoisson();
-		Random r = new Random();
-		int index = r.nextInt(this.poisson.size());
-		this.removePoisson(index);
+		this.removeDeadAlgues();
+		this.removeDeadFish();
 		this.updateAlgue();
-		this.updatePoisson();
+		this.updateFish();
+		this.fishBirth();
+		this.diviseAlgue();
+		this.fishEating();
 		this.show();
+		this.tours += 1;
+
 
 	}
 

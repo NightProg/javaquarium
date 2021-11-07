@@ -2,5 +2,8 @@ package Javaquarium;
 
 public enum Sexe {
     MALE,
-    FEMELLE
+    FEMELLE;
+    public static Sexe getRandom() {
+        return values()[(int) (Math.random() * values().length)];
+    }
 }

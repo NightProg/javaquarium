@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="javaquarium">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/javaquarium.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
