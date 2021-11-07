@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/Javaquarium.iml" filepath="$PROJECT_DIR$/Javaquarium.iml" />
-      <module fileurl="file://$PROJECT_DIR$/PoissonCarnivore.java/PoissonCarnivore.java.iml" filepath="$PROJECT_DIR$/PoissonCarnivore.java/PoissonCarnivore.java.iml" />
-    </modules>
-  </component>
-</project>
