@@ -1,9 +1,9 @@
 package Javaquarium;
 
 public class Algue {
-	public int age = 1;
-	public int pv = 10;
-	public boolean isDead = false;
+	protected int age;
+	protected int pv = 10;
+	protected boolean isDead = false;
 	public Algue() {}
 	public Algue(int age) {
 		this.age = age;
@@ -17,11 +17,11 @@ public class Algue {
 		return this.pv;
 	}
  
-	public void old(int year) {
+	protected void old(int year) {
 		this.age += year;
 	}
 
-	public void hurt(int degat) {
+	protected void hurt(int degat) {
 		if (this.pv - degat < 0) {
 			this.isDead = true;
 		} else {
@@ -29,17 +29,17 @@ public class Algue {
 		}
 	}
 
-	public void heal(int vie) {
+	protected void heal(int vie) {
 		if (! this.isDead) {
 			this.pv += Math.max(vie, 0);
 		}
 	}
 	
-	public void setAge(int age) {
+	protected void setAge(int age) {
 		this.age = age;
 	}
 
-	public void setPV(int pv) {
+	protected void setPV(int pv) {
 		this.pv = pv;
 	}
 
@@ -56,5 +56,10 @@ public class Algue {
 		} else {
 			return null;
 		}
+	}
+
+	@Override
+	public String toString() {
+		return String.format("(pv: %d, age: %d)", this.pv, this.age);
 	}
 }

@@ -1,0 +1,18 @@
+
+<project>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.javaquarium.app</groupId>
+    <artifactId>javaquarium</artifactId>
+    <version>1</version>
+    <dependencies>
+        <dependency>
+            <groupId>org.javatuples</groupId>
+            <artifactId>javatuples</artifactId>
+            <version>1.2</version>
+        </dependency>
+    </dependencies>
+    <configuration>
+        <mainClass>Main</mainClass>
+    </configuration>
+</project>

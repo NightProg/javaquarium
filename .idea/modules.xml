@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Javaquarium.iml" filepath="$PROJECT_DIR$/Javaquarium.iml" />
-      <module fileurl="file://$PROJECT_DIR$/PoissonCarnivore.java/PoissonCarnivore.java.iml" filepath="$PROJECT_DIR$/PoissonCarnivore.java/PoissonCarnivore.java.iml" />
     </modules>
   </component>
 </project>

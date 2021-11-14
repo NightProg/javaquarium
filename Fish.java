@@ -2,37 +2,30 @@ package Javaquarium;
 
 public abstract class Fish {
     protected String name;
-    private Specie specie;
-    protected Sexe sexe = Sexe.MALE;
+    protected Sexe sexe;
     protected int pv = 10;
     protected int age = 1;
     public boolean isDead = false;
 
-    public Fish(String name, Specie specie) {
-        this.name = name;
-        this.specie = specie;
-    }
 
-    public Fish(String name, Specie specie, Sexe sexe) {
+
+    public Fish(String name, Sexe sexe) {
         this.name = name;
         this.sexe = sexe;
-        this.specie = specie;
     }
 
-    public Fish(String name, Specie specie, Sexe sexe, int age) {
+    public Fish(String name, Sexe sexe, int age) {
         this.name = name;
         this.sexe = sexe;
         this.age = age;
-        this.specie = specie;
     }
+
 
     public int getAge() {
         return this.age;
     }
 
-    public Specie getSpecie() {
-        return this.specie;
-    }
+
 
     public int getPV() {
         return this.pv;
@@ -45,10 +38,13 @@ public abstract class Fish {
     public Sexe getSexe() {
         return this.sexe;
     }
+    protected void setPV(int pv) {
+        this.pv = pv;
+    }
 
 
 
-    public void hurt(int n) {
+    protected void hurt(int n) {
         if (this.pv - n < 0) {
             this.pv = 0;
             this.isDead = true;
@@ -57,23 +53,47 @@ public abstract class Fish {
         }
     }
 
-    public void old(int year) {
+    protected void old(int year) {
         this.age += year;
     }
 
-    public void soigner(int pv) {
+    protected void heal(int pv) {
         this.pv += pv;
     }
 
-    public abstract boolean eat(Fish fish);
 
-    public abstract boolean eat(Algue algue);
 
     public boolean wantHaveChild(Fish fish) {
-        return (this.pv > 5 && this.specie == fish.getSpecie() && this.sexe != fish.getSexe());
+        if (fish == null) {
+            return false;
+        }
+        return (this.pv > 5 && this.getClass().equals(fish.getClass()) && this.sexe != fish.getSexe());
     }
 
-    abstract Fish giveBirth();
+    protected void update() {
+        this.hurt(1);
+        this.old(1);
+    }
+
+    public boolean eat(Fish f) {return true;}
+    public boolean eat(Algue a) {return true;}
+
+    @Override
+    public String toString() {
+        return String.format(
+                "(name: %s, pv: %d, age: %d, specie: %s, sexe: %s",
+                this.name,
+                this.pv,
+                this.age,
+                this.getClass(),
+                this.sexe);
+    }
+
+
+    public abstract Fish giveBirth();
+
+
+
 }
 
 
